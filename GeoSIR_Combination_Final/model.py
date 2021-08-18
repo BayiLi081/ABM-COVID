@@ -356,7 +356,6 @@ class InfectedModel(Model):
             if neighbourhood_agent.Function == "residential":
                 agent_size = neighbourhood_agent.Agent
                 num_agents = agent_size
-                num_agents = int(round(agent_size/50))
                 ac_population = AgentCreator(PersonAgent, {"model": self,"residence":neighbourhood_agent.unique_id})
                 pop_size += num_agents
                 for k in range(num_agents):
@@ -365,9 +364,6 @@ class InfectedModel(Model):
                     self.grid.add_agents(this_person)
                     self.schedule.add(this_person)                
         self.counts["susceptible"] = pop_size-self.counts["infected"]-self.counts["dead"]-self.counts["recovered"]
-        #self.counts["susceptible"] = 327-self.counts["infected"]
-        # Add the neighbourhood agents to schedule AFTER person agents,
-        # to allow them to update their color by using BaseScheduler
         self.datacollector.collect(self)
         self.infectedgroupdatacollector.collect(self)
         self.deathgroupdatacollector.collect(self)
